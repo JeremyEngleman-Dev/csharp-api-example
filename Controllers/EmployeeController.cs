@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Contracts;
 
@@ -10,10 +11,12 @@ namespace APIExample.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly EmployeeDB _db;
+        private readonly IHubContext<EmployeeHub> _hubContext;
 
-        public EmployeesController(EmployeeDB db)
+        public EmployeesController(EmployeeDB db, IHubContext<EmployeeHub> hubContext)
         {
             _db = db;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -46,6 +49,8 @@ namespace APIExample.Controllers
             _db.Employees.Add(employee);
             await _db.SaveChangesAsync();
 
+            await _hubContext.Clients.All.SendAsync("EmployeeAdd", employee);
+
             return CreatedAtAction(
                 nameof(GetEmployeeById),
                 new { id = employee.Id },
@@ -66,6 +71,8 @@ namespace APIExample.Controllers
 
             await _db.SaveChangesAsync();
 
+            await _hubContext.Clients.All.SendAsync("EmployeeUpdate", employee);
+
             return NoContent();
         }
 
@@ -77,6 +84,8 @@ namespace APIExample.Controllers
 
             _db.Employees.Remove(employee);
             await _db.SaveChangesAsync();
+
+            await _hubContext.Clients.All.SendAsync("EmployeeDelete", id);
 
             return NoContent();
         }

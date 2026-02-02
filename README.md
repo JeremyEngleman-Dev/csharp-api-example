@@ -1,5 +1,7 @@
+## Intro
 I created this project to refresh/learn C#, and how to build an API in both minimal API and controller-based API.
 
+## Endpoints 
 | HTTP | Action | Path | Body |
 |---|---|---|---|
 | GET | List Employees | /employees | |
@@ -10,7 +12,7 @@ I created this project to refresh/learn C#, and how to build an API in both mini
 | PUT | Update Employee | /employee/{id} | JSON |
 | GET | Root | / | |
 
-### JSON Structure:
+#### JSON Structure for employee:
 ```json
 {
     "Name": "name",
@@ -18,3 +20,7 @@ I created this project to refresh/learn C#, and how to build an API in both mini
     "IsActive":true
 }
 ```
+
+## Features
+- Get/Create/Update/Delete Employees
+- Live updates using SignalR to Blazor frontend

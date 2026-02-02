@@ -6,9 +6,32 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5163")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        });
+});
+
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
 app.MapControllers();
+
+app.MapHub<EmployeeHub>("/employeeHub");
 
 app.MapGet("/", () => "API is running");
 
