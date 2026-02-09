@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIExample.Controllers
 {
@@ -19,6 +20,7 @@ namespace APIExample.Controllers
             _hubContext = hubContext;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAll()
         {
@@ -26,6 +28,7 @@ namespace APIExample.Controllers
             return Ok(employees);
         }
 
+        [Authorize]
         [HttpGet("active")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllActive()
         {
@@ -33,6 +36,7 @@ namespace APIExample.Controllers
             return Ok(employees);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployeeById(int id)
         {
@@ -43,6 +47,7 @@ namespace APIExample.Controllers
             return Ok(employee);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
         {
@@ -58,6 +63,7 @@ namespace APIExample.Controllers
                 );
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, Employee inputEmployee)
         {
@@ -76,6 +82,7 @@ namespace APIExample.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
