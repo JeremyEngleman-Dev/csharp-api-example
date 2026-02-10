@@ -9,20 +9,24 @@ namespace APIExample.Controllers
     public class AuthController : ControllerBase
     {
         private readonly JwtService _jwt;
+        private readonly EmployeeDB _db;
 
-        public AuthController(JwtService jwt)
+        public AuthController(JwtService jwt, EmployeeDB db)
         {
             _jwt = jwt;
+            _db = db;
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            // TODO: validate user (DB, Identity, etc.)
-            if (request.Email != "test@test.com" || request.Password != "password")
+            var user = await _db.Users
+                .Include(u => u.Role)
+                .SingleOrDefaultAsync(u => u.Email == request.Email);
+            if (user == null || !PasswordHasher.Verify(request.Password, user.PasswordHash))
                 return Unauthorized();
 
-            var token = _jwt.GenerateToken("1", request.Email);
+            var token = _jwt.GenerateToken(user);
 
             return Ok(new { token });
         }
