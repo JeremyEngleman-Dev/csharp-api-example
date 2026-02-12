@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
+using APIExample.Authentication;
+using APIExample.DB;
 
 namespace APIExample.Controllers
 {

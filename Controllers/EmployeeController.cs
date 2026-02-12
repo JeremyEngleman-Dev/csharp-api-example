@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
-using Microsoft.AspNetCore.Authorization;
+using APIExample.DB;
 
 namespace APIExample.Controllers
 {

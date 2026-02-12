@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using APIExample.DB;
+using APIExample.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EmployeeDB>(opt => opt.UseInMemoryDatabase("EmployeeList"));

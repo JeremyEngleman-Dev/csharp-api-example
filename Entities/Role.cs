@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-
-public class Role
+namespace APIExample.Entities
 {
-    public int Id { get; set; }
-    public required string Name { get; set; }
-    public ICollection<User> Users { get; set; } = new List<User>();
+    public class Role
+    {
+        public int Id { get; set; }
+        public required string Name { get; set; }
+        public ICollection<User> Users { get; set; } = new List<User>();
+    }
 }
